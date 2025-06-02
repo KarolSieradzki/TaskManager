@@ -8,8 +8,10 @@ def create_app():
 
     from .models import Task
     from .routes.tasks import tasks_bp
+    from .error_handlers import register_error_handlers
 
     app.register_blueprint(tasks_bp, url_prefix='/api/tasks')
+    register_error_handlers(app)
 
     #seed database 
     init_db(app)
