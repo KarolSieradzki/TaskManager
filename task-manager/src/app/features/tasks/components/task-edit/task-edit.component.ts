@@ -60,7 +60,7 @@ export class TaskEditComponent implements OnInit {
       this.taskService.updateTask(this.taskId, this.taskForm.value).subscribe({
         next: () => {
           this.snackBar.open('Task updated successfully', 'Dismiss', { duration: 3000 });
-          this.router.navigate(['/tasks', this.taskId]);
+          this.router.navigate(['/tasks']);
         },
         error: () => {
           this.snackBar.open('Failed to update task', 'Dismiss', { duration: 3000 });
