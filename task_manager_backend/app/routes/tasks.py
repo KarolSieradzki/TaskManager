@@ -41,18 +41,7 @@ def serialize_task(task):
 @tasks_bp.route('/', methods=['GET'])
 def get_tasks():
     tasks = Task.query.all()
-
-    return jsonify([{
-        'id': t.id,
-        'title': t.title,
-        'description': t.description,
-        'status': t.status,
-        'priority': t.priority,
-        'due_date': t.due_date.isoformat() if t.due_date else None,
-        'assigned_to': t.assigned_to,
-        'created_at': t.created_at.isoformat(),
-        'updated_at': t.updated_at.isoformat()
-    } for t in tasks])
+    return jsonify([serialize_task(t) for t in tasks])
 
 
 

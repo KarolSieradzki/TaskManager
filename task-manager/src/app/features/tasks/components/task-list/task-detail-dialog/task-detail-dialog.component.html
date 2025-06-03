@@ -1,0 +1,34 @@
+<h2 mat-dialog-title>Task Details</h2>
+<mat-dialog-content>
+  <mat-list>
+    <mat-list-item>
+      <strong>Title:</strong> {{ data.task.title }}
+    </mat-list-item>
+    <mat-list-item>
+      <strong>Description:</strong> {{ data.task.description || '-' }}
+    </mat-list-item>
+    <mat-list-item>
+      <strong>Status:</strong> {{ data.task.status }}
+    </mat-list-item>
+    <mat-list-item>
+      <strong>Priority:</strong> {{ data.task.priority }}
+    </mat-list-item>
+    <mat-list-item>
+      <strong>Due Date:</strong> {{ data.task.due_date | date:'short' }}
+    </mat-list-item>
+    <mat-list-item>
+      <strong>Assigned To:</strong> {{ data.task.assigned_to || '-' }}
+    </mat-list-item>
+    <mat-list-item>
+      <strong>Created:</strong> {{ data.task.created_at | date:'short' }}
+    </mat-list-item>
+    <mat-list-item>
+      <strong>Updated:</strong> {{ data.task.updated_at | date:'short' }}
+    </mat-list-item>
+  </mat-list>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button color="primary" (click)="editTask()">Edit</button>
+  <button mat-button color="warn" (click)="deleteTask()">Delete</button>
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

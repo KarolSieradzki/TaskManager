@@ -8,12 +8,16 @@ import { Task } from '../../features/tasks/models/task.model';
 })
 export class TaskService {
 
-   private apiUrl = 'http://localhost:5000/api/tasks/';
+  private apiUrl = 'http://localhost:5000/api/tasks/';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getTasks(): Observable<Task[]> {
     return this.http.get<Task[]>(this.apiUrl);
+  }
+
+  getTask(id: number): Observable<Task> {
+    return this.http.get<Task>(`${this.apiUrl}${id}`);
   }
 
   createTask(task: Partial<Task>): Observable<Task> {
@@ -21,10 +25,10 @@ export class TaskService {
   }
 
   updateTask(id: number, task: Partial<Task>): Observable<Task> {
-    return this.http.put<Task>(`${this.apiUrl}/${id}`, task);
+    return this.http.put<Task>(`${this.apiUrl}${id}`, task);
   }
 
   deleteTask(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
-  }
+    return this.http.delete<void>(`${this.apiUrl}${id}`);
+}
 }

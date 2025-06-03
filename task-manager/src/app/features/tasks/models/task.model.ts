@@ -4,8 +4,8 @@ export interface Task {
   description?: string;
   status: 'todo' | 'in_progress' | 'done';
   priority?: 'low' | 'medium' | 'high';
-  due_date?: string;
   assigned_to?: string;
-  created_at: string;
-  updated_at: string;
+  due_date?: string | null;
+  created_at?: string | null;
+  updated_at?: string | null;
 }

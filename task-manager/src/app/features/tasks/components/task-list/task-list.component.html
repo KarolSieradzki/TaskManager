@@ -1,79 +1,79 @@
 <div class="table-container">
   <mat-toolbar color="primary">
-    <span>Task Manager</span>
+    <span>All Tasks</span>
+    <span class="spacer"></span>
+    <button mat-raised-button color="accent" (click)="goToAdd()">
+      <mat-icon>add</mat-icon> Add Task
+    </button>
   </mat-toolbar>
 
-  <div class="filters">
-    <mat-form-field appearance="outline">
-      <mat-label>Title</mat-label>
-      <input matInput (keyup)="applyFilter($event, 'title')" placeholder="Search by title">
+  <form [formGroup]="filterForm" class="filter-form">
+  <div class="filter-row">
+    <mat-form-field>
+      <input matInput placeholder="Search title or description" formControlName="search">
     </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Assigned To</mat-label>
-      <input matInput (keyup)="applyFilter($event, 'assigned_to')" placeholder="Search by assignee">
-    </mat-form-field>
-    <mat-form-field appearance="outline">
+    <mat-form-field>
       <mat-label>Status</mat-label>
-      <mat-select (selectionChange)="applySelectFilter($event.value, 'status')">
+      <mat-select formControlName="status">
         <mat-option value="">All</mat-option>
-        <mat-option *ngFor="let status of statusOptions" [value]="status">{{ status }}</mat-option>
+        <mat-option value="todo">To Do</mat-option>
+        <mat-option value="in_progress">In Progress</mat-option>
+        <mat-option value="done">Done</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Priority</mat-label>
-      <mat-select (selectionChange)="applySelectFilter($event.value, 'priority')">
-        <mat-option value="">All</mat-option>
-        <mat-option *ngFor="let priority of priorityOptions" [value]="priority">{{ priority }}</mat-option>
-      </mat-select>
+    <mat-form-field>
+      <input matInput placeholder="Assigned To" formControlName="assigned_to">
     </mat-form-field>
+    <mat-checkbox formControlName="favoriteOnly" class="favorite-checkbox">
+      Show only favorites
+    </mat-checkbox>
   </div>
+</form>
 
   <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort class="responsive-table">
+    <table mat-table [dataSource]="(filteredTasks$ | async) || []" matSort>
 
       <ng-container matColumnDef="title">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
-        <td mat-cell *matCellDef="let task">{{ task.title }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef>Description</th>
-        <td mat-cell *matCellDef="let task">{{ task.description }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-        <td mat-cell *matCellDef="let task">{{ task.status }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="priority">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Priority</th>
-        <td mat-cell *matCellDef="let task">{{ task.priority }}</td>
+        <td mat-cell *matCellDef="let task" (click)="openDetails(task)" class="clickable">{{ task.title }}</td>
       </ng-container>
 
       <ng-container matColumnDef="assigned_to">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Assigned To</th>
-        <td mat-cell *matCellDef="let task">{{ task.assigned_to }}</td>
+        <td mat-cell *matCellDef="let task" (click)="openDetails(task)" class="clickable">{{ task.assigned_to }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+        <td mat-cell *matCellDef="let task" (click)="openDetails(task)" class="clickable">{{ task.status }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="priority">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Priority</th>
+        <td mat-cell *matCellDef="let task" (click)="openDetails(task)" class="clickable">{{ task.priority }}</td>
       </ng-container>
 
       <ng-container matColumnDef="due_date">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Due Date</th>
-        <td mat-cell *matCellDef="let task">{{ task.due_date | date:'short' }}</td>
+        <td mat-cell *matCellDef="let task" (click)="openDetails(task)" class="clickable">
+          {{ task.due_date | date:'short' }}
+        </td>
       </ng-container>
 
-      <ng-container matColumnDef="created_at">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Created</th>
-        <td mat-cell *matCellDef="let task">{{ task.created_at | date:'short' }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="updated_at">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Updated</th>
-        <td mat-cell *matCellDef="let task">{{ task.updated_at | date:'short' }}</td>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let task">
+          <button mat-icon-button color="primary" (click)="openDetails(task)" matTooltip="Details">
+            <mat-icon>visibility</mat-icon>
+          </button>
+          <button mat-icon-button (click)="toggleFavorite(task.id)">
+            <mat-icon color="warn">{{ isFavorite(task.id) ? 'star' : 'star_border' }}</mat-icon>
+          </button>
+        </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
   </div>
 </div>
