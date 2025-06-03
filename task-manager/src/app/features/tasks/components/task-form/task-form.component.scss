@@ -1,0 +1,23 @@
+mat-card {
+  max-width: 500px;
+  margin: 32px auto;
+  padding: 24px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+@media (max-width: 600px) {
+  mat-card {
+    margin: 8px;
+    padding: 8px;
+  }
+}

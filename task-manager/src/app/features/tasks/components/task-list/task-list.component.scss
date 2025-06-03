@@ -1,0 +1,24 @@
+.table-container {
+  margin: 24px;
+  max-width: 100vw;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 800px) {
+  .filters {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .table-container {
+    margin: 8px;
+  }
+  table {
+    font-size: 12px;
+  }
+}
