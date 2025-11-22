@@ -19,7 +19,7 @@ def send_notification_async(event_type, headline, body, task_data):
         "headline": headline,
         "body": body,
         "task": task_data,
-        "timestamp": datetime.utcnow().isoformat() + "Z"
+        "timestamp": datetime.utcnow().isoformat() + "+02:00"
     }
     print(f"[CELERY] Publishing notification: {message}")
     r.publish('notifications', json.dumps(message))

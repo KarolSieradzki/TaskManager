@@ -21,7 +21,7 @@ export class TaskListComponent implements OnInit {
 
   filterForm: FormGroup;
   filteredTasks$: Observable<Task[]> | undefined;
-  tasks$ = this.taskService.getTasks();
+  tasks$ = this.taskService.getTasks(); //Observable<Task[]>
 
   constructor(
     private taskService: TaskService,
